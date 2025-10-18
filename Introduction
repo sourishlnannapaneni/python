@@ -1,0 +1,8 @@
+#apps_list = ["Youtube", "Whatsapp"]
+#print(f'\n apps_list = {apps_list}')
+#apps_list.append("Tiktok")
+#print(f'\n apps_list = {apps_list}')
+
+name = input("what is your name?")
+hobby = input("What is your hobby?")
+print(f"\n Hi, {name}. Your hobby is {hobby}")
