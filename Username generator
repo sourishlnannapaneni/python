@@ -1,0 +1,25 @@
+import random
+def generate_username(full_name):
+    name_parts = full_name.split()
+    if len(name_parts)<2:
+        return "Please enter your full name (First and last name)"
+    first_name = name_parts[0].lower()
+    last_name = name_parts[-1].lower()
+    #Some Combinations
+    username1 = first_name + last_name
+    username2 = first_name[:3] + last_name[-3:]
+    username3 = last_name[:3] + first_name[-4:]
+    username4 = first_name[2:4] + last_name[-4:-10]
+    num = random.randint(10, 99)
+    username5 = last_name +str(num)
+    
+    usernames = [username1, username2, username3, username4, username5]
+    return random.choice(usernames)
+
+while True:
+    full_name = input("Enter your full name or type 'exit' to quit the program: ")
+    if full_name.lower() == "exit":
+        break
+    username = generate_username(full_name)
+    print(username)
+    print('_'*50)
