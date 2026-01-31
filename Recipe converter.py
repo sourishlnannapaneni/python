@@ -45,5 +45,13 @@ def recipe_converter():
         elif choice == 3:
             grams = float(input("Enter the number of grams: "))
             ingredient = input("Enter the ingredient (flour, sugar, butter): ").strip().lower()
-            result = grams_to_cups(grams=, ingredient)
+            result = grams_to_cups(grams, ingredient)
             print(f"Result:{result} cups")
+        
+        elif choice == 4:
+            print("Thanks for using the recipe converter app, Bye!")
+            break
+        else:
+            print("Invalid choice, Try again")
+            
+recipe_converter()
