@@ -1,0 +1,115 @@
+import turtle
+import random
+import time
+
+sc = turtle.Screen()
+sc.bgcolor("light blue")
+#sc.setup(w, h)
+sc.setup(800, 400)
+sc.tracer(0) #tracer(0) to turn off screen animation
+
+#player
+p = turtle.Turtle()
+p.shape("triangle")
+p.color("red")
+
+p.penup()
+p.goto(0, -150)
+p.setheading(90)
+
+#score
+score = 0
+score_display = turtle.Turtle()
+score_display.hideturtle()
+score_display.penup
+score_display.goto(-800, 400)
+score_display.color("black")
+score_display.write(f"score = {score} ", align = "left", 
+                    font = ("Arial", 20, "bold"))
+
+#create balloons
+balloons = [] 
+
+#game variables
+game_speed = 0.02
+difficulty_increase = 0.001
+spawn_interval = 2
+last_spawn_time = time.time()
+running = True
+
+#functions
+def move_left():
+    x = p.xcor() -50
+    if x > -390:
+        p.setx(x)
+
+def move_right():
+    x = p.xcor() +50
+    if x > 390:
+        p.setx(x)
+
+# spawn balloon
+def spawn_balloons():
+    balloon = turtle.Turtle()
+    balloon.penup()
+    balloon.shape("circle")
+    balloon.color(random.choice(["red", "green", "blue", "yellow", "white", "purple"]))
+    x = random.randint(-350, 350)
+    y = random.randint(-200, 0)
+    balloon.goto(x, y)
+    balloon.speed = random.uniform(1, 7)
+    if random.random() < 0.2: 
+        balloon.color("black")
+        balloon.is_bomb = True
+    else:
+        balloon.is_bomb = False
+    balloons.append(balloon)
+
+def update_score(points):
+    global score
+    score += points
+    score_display.clear()
+    score_display.write(f'Score:{score}', font = ('Arial', 16, 'bold'))
+
+def game_over():
+    global running
+    running = False
+    game_over_display = turtle.Turle()
+    game_over_display.color("red")
+    game_over_display.write("GAME OVER", align = 'center', font = ('Arial', 30, 'bold'))
+    sc.update()
+    time.sleep(5)
+    sc.bye()
+    
+sc.listen()
+sc.onkey(move_left, "Left")
+sc.onkey(move_right, "Right")
+#main game view
+while running:
+    sc.update()
+    current_time = time.time()
+
+    if current_time - last_spawn_time > spawn_interval:
+        spawn_balloons()
+        last_spawn_time = current_time
+    
+    #make balloons move
+    for balloon in balloons[:]:
+        balloon.sety(balloon.ycor() - balloon.speed)
+        if balloon.ycor() < -200:
+            balloons.remove(balloon)
+            balloon.hideturtle()
+        
+        #check collision between ballloon and player
+        if p.distance(balloon) < 20:
+            if balloon.is_bomb:
+                game_over()
+            else:
+                update_score()
+            balloons.remove(balloon)
+            balloon.hideturtle()
+    
+    game_speed = max(0.005, game_speed - difficulty_increase)
+    spawn_interval = max(0.5, spawn_interval - 0.0005)
+    time.sleep(game_speed)
+turtle.done()
