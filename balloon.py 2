@@ -21,7 +21,7 @@ p.setheading(90)
 score = 0
 score_display = turtle.Turtle()
 score_display.hideturtle()
-score_display.penup
+score_display.penup()
 score_display.goto(-800, 400)
 score_display.color("black")
 score_display.write(f"score = {score} ", align = "left", 
@@ -45,7 +45,7 @@ def move_left():
 
 def move_right():
     x = p.xcor() +50
-    if x > 390:
+    if x < 390:
         p.setx(x)
 
 # spawn balloon
@@ -55,7 +55,8 @@ def spawn_balloons():
     balloon.shape("circle")
     balloon.color(random.choice(["red", "green", "blue", "yellow", "white", "purple"]))
     x = random.randint(-350, 350)
-    y = random.randint(-200, 0)
+    #y = random.randint(-200, 0)
+    y = random.randint(150,200)
     balloon.goto(x, y)
     balloon.speed = random.uniform(1, 7)
     if random.random() < 0.2: 
@@ -74,7 +75,7 @@ def update_score(points):
 def game_over():
     global running
     running = False
-    game_over_display = turtle.Turle()
+    game_over_display = turtle.Turtle()
     game_over_display.color("red")
     game_over_display.write("GAME OVER", align = 'center', font = ('Arial', 30, 'bold'))
     sc.update()
@@ -105,7 +106,7 @@ while running:
             if balloon.is_bomb:
                 game_over()
             else:
-                update_score()
+                update_score(1)
             balloons.remove(balloon)
             balloon.hideturtle()
     
