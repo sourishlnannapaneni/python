@@ -1,0 +1,22 @@
+import time
+
+timer = 0
+minute_timer = 0
+hour_timer = 0
+day_timer = 0
+
+while True:
+    print(f"{day_timer} days {hour_timer} hours {minute_timer} minutes {timer} seconds")
+    timer += 1
+    time.sleep(1) 
+    if timer > 59:
+        minute_timer += 1
+        timer = 0
+
+    if minute_timer > 59:
+        hour_timer += 1
+        minute_timer = 0
+
+    if hour_timer > 23:
+        day_timer += 1
+        hour_timer = 0 
